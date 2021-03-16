@@ -15,7 +15,7 @@ function validate(&$x,&$y,&$p,&$messages){
 	}
 
 	if ( $x == "") {
-	$messages [] = 'Nie podano kwoty';
+                $messages [] = 'Nie podano kwoty';
         }
         if ( $y == "") {
                 $messages [] = 'Nie podano ilości lat';
