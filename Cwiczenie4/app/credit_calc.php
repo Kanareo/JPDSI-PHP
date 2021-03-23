@@ -1,39 +1,41 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
 
+require_once _ROOT_PATH.'/lib/smarty/Smarty.class.php';
+
 include _ROOT_PATH.'/app/security/check.php';
 
-function getParams(&$x,&$y,&$p){
-	$x = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
-	$y = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
-	$p = isset($_REQUEST['p']) ? $_REQUEST['p'] : null;	
+function getParams(&$form){
+	$form['x'] = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
+	$form['y'] = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
+	$form['p'] = isset($_REQUEST['p']) ? $_REQUEST['p'] : null;	
 }
 
-function validate(&$x,&$y,&$p,&$messages){
-	if ( ! (isset($x) && isset($y) && isset($p))) {
+function validate(&$form,&$messages){
+	if ( ! (isset($form['x']) && isset($form['y']) && isset($form['p']))) {
 		return false;
 	}
 
-	if ( $x == "") {
+	if ( $form['x'] == "") {
                 $messages [] = 'Nie podano kwoty';
         }
-        if ( $y == "") {
+        if ( $form['y'] == "") {
                 $messages [] = 'Nie podano ilości lat';
         }
 
-        if ( $p == "") {
+        if ( $form['p'] == "") {
                 $messages [] = 'Nie podano oprocentowania';
         }
 
-	if (! is_numeric( $x )) {
+	if (! is_numeric( $form['x'] )) {
 		$messages [] = 'Kwota musi być liczbą';
 	}
 	
-	if (! is_numeric( $y )) {
+	if (! is_numeric( $form['y'] )) {
 		$messages [] = 'Lata muszą być liczbą';
 	}
 
-	if (! is_numeric( $p )) {
+	if (! is_numeric( $form['p'] )) {
 		$messages [] = 'Oprecentowanie musi być liczbą, używaj ".", nie wpisuj %';
 	}	
 
@@ -41,24 +43,31 @@ function validate(&$x,&$y,&$p,&$messages){
 	else return true;
 }
 
-function process(&$x,&$y,&$p,&$result){
+function process(&$form,&$result){
 	
-	$x = intval($x);
-	$y = intval($y);
-	$p = floatval($p);
+	$form['x'] = intval($form['x']);
+	$form['y'] = intval($form['y']);
+	$form['p']= floatval($form['p']);
 	
-	$result = $x*((100+$p)/100)/($y*12);
+	$result = $form['x']*((100+$form['p'])/100)/($form['y']*12);
 }
 
-$x = null;
-$y = null;
-$p = null;
+$form = null;
 $result = null;
 $messages = [];
 
-getParams($x,$y,$p);
-if ( validate($x,$y,$p,$messages) ) {
-	process($x,$y,$p,$result);
+getParams($form);
+if ( validate($form,$messages) ) {
+	process($form,$result);
 }
 
-include 'credit_view.php';
+$smarty = new Smarty();
+
+$smarty->assign('app_url',_APP_URL);
+$smarty->assign('root_path',_ROOT_PATH);
+
+$smarty->assign('form',$form);
+$smarty->assign('result',$result);
+$smarty->assign('messages',$messages);
+
+$smarty->display(_ROOT_PATH.'/app/credit_view.tpl');

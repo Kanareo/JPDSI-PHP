@@ -6,14 +6,14 @@
 	
 	<title>Kalkulator kredytowy</title>
 
-	<link rel="shortcut icon" href="<?php print(_APP_URL);?>/images/gt_favicon.png">
+	<link rel="shortcut icon" href="{$app_url}/images/gt_favicon.png">
 	
 	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-	<link rel="stylesheet" href="<?php print(_APP_URL);?>/css/bootstrap.min.css">
-	<link rel="stylesheet" href="<?php print(_APP_URL);?>/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{$app_url}/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$app_url}/css/font-awesome.min.css">
 
-	<link rel="stylesheet" href="<?php print(_APP_URL);?>/css/bootstrap-theme.css" media="screen" >
-	<link rel="stylesheet" href="<?php print(_APP_URL);?>/css/main.css">
+	<link rel="stylesheet" href="{$app_url}/css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="{$app_url}/css/main.css">
 
 </head>
 
@@ -25,6 +25,7 @@
     </header>
 
 	<div class="container text-center">
+            {block name=content} Domyślna treść zawartości .... {/block}
         </div>
     <footer id="footer" class="top-space">
         <div class="footer1">
