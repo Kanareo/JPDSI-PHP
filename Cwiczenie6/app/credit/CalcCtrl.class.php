@@ -1,8 +1,8 @@
 <?php
 require_once $conf->root_path.'/lib/smarty/Smarty.class.php';
 require_once $conf->root_path.'/lib/Messages.class.php';
-require_once $conf->root_path.'/app/CalcForm.class.php';
-require_once $conf->root_path.'/app/CalcResult.class.php';
+require_once $conf->root_path.'/app/credit/CalcForm.class.php';
+require_once $conf->root_path.'/app/credit/CalcResult.class.php';
 
 class CalcCtrl {
 
@@ -92,6 +92,6 @@ class CalcCtrl {
                 $smarty->assign('res',$this->result);
                 $smarty->assign('msgs',$this->msgs);
 
-                $smarty->display($conf->root_path.'/app/credit_view.tpl');
+                $smarty->display($conf->root_path.'/app/credit/credit_view.tpl');
 	}
 }

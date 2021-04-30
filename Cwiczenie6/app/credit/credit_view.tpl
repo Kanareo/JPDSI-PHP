@@ -1,8 +1,8 @@
-{extends file="../templates/main.tpl"}
+{extends file="../../templates/main.tpl"}
 
 {block name=content}
 <div style="min-height:43.55em;padding:4em">
-    <form action="{$conf->app_url}/app/credit_calc.php" method="post">
+    <form action="{$conf->action_root}calcCompute" method="post">
         <p><label for="id_x">Kwota kredytu: </label>
         <input id="id_x" type="text" name="x" value="{$form->x}" /></p>
         <p><label for="id_y">Ilość lat: </label>
