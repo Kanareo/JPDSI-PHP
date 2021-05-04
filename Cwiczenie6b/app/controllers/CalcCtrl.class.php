@@ -1,15 +1,15 @@
 <?php
-require_once 'CalcForm.class.php';
-require_once 'CalcResult.class.php';
+namespace app\controllers;
+
+use app\forms\CalcForm;
+use app\transfer\CalcResult;
 
 class CalcCtrl {
-
-	private $msgs;   
+  
 	private $form;   //dane formularza (do obliczeń i dla widoku)
 	private $result; //inne dane dla widoku
 
 	public function __construct(){
-		$this->msgs = new Messages();
 		$this->form = new CalcForm();
 		$this->result = new CalcResult();
 	}
@@ -27,32 +27,32 @@ class CalcCtrl {
 	
 		// sprawdzenie, czy potrzebne wartości zostały przekazane
 		if ($this->form->x == "") {
-			$this->msgs->addError('Nie podano kwoty');
+			getMessages()->addError('Nie podano kwoty');
 		}
 		if ($this->form->y == "") {
-			$this->msgs->addError('Nie podano ilości lat');
+			getMessages()->addError('Nie podano ilości lat');
 		}
                 
                 if ($this->form->p == "") {
-			$this->msgs->addError('Nie podano oprocentowania');
+			getMessages()->addError('Nie podano oprocentowania');
 		}
 		
-		if (!$this->msgs->isError()) {
+		if (!getMessages()->isError()) {
 			
 			if (!is_numeric ( $this->form->x )) {
-				$this->msgs->addError('Kwota musi być liczbą');
+				getMessages()->addError('Kwota musi być liczbą');
 			}
 			
 			if (!is_numeric ( $this->form->y )) {
-				$this->msgs->addError('Lata muszą być liczbą');
+				getMessages()->addError('Lata muszą być liczbą');
 			}
                         
                         if (!is_numeric ( $this->form->p )) {
-				$this->msgs->addError('Oprecentowanie musi być liczbą, używaj ".", nie wpisuj %');
+				getMessages()->addError('Oprecentowanie musi być liczbą, używaj ".", nie wpisuj %');
 			}
 		}
 		
-		return !$this->msgs->isError();
+		return !getMessages()->isError();
 	}
 	
 	public function process(){
@@ -65,11 +65,11 @@ class CalcCtrl {
 			$this->form->x = intval($this->form->x);
 			$this->form->y = intval($this->form->y);
                         $this->form->p = floatval($this->form->p);
-			$this->msgs->addInfo('Podano poprawne parametry');
+			getMessages()->addInfo('Podano poprawne parametry');
 				
 			$this->result->result = $this->form->x * ((100+$this->form->p)/100)/($this->form->y * 12);
 			
-			$this->msgs->addInfo('Wykonano obliczenia.');
+			getMessages()->addInfo('Wykonano obliczenia.');
 		}
 		
 		$this->generateView();
@@ -80,7 +80,6 @@ class CalcCtrl {
 
                 getSmarty()->assign('form',$this->form);
                 getSmarty()->assign('res',$this->result);
-                getSmarty()->assign('msgs',$this->msgs);
                 
                 getSmarty()->display('credit_view.tpl');
 	}
